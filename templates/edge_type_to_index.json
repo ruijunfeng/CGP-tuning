@@ -1,0 +1,15 @@
+{
+    "ARGUMENT": 0,
+    "AST": 1,
+    "CALL": 2,
+    "CDG": 3,
+    "CFG": 4,
+    "CONDITION": 5,
+    "CONTAINS": 6,
+    "DOMINATE": 7,
+    "PARAMETER_LINK": 8,
+    "POST_DOMINATE": 9,
+    "REACHING_DEF": 10,
+    "RECEIVER": 11,
+    "REF": 12
+}
