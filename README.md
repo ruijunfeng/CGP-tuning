@@ -2,8 +2,6 @@
 
 This project implements **CGP-Tuning**, a graph-enhanced soft prompt tuning method designed for **code vulnerability detection**. The approach incorporates graph-based structural information of source code into prompt tuning, enhancing the detection capabilities for security vulnerabilities in code.
 
-For detailed information on the underlying research, please refer to the paper: https://arxiv.org/abs/2501.04510.
-
 The dataset used in this project is **DiverseVul**, which can be accessed here: https://github.com/wagner-group/diversevul.
 
 ## Project Structure
