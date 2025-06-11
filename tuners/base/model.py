@@ -15,6 +15,12 @@ class BaseGraphPromptEncoder(nn.Module):
     
     def __init__(self, config):
         super().__init__()
+        # Ablation settings validity check
+        if sum([config.ablate_node_type_embedding, config.ablate_edge_type_embedding, config.ablate_positional_embedding, config.ablate_cross_modal_alignment_module, config.ablate_multi_head_attn, config.ablate_projector]) > 1:
+            raise ValueError(
+                "Only one ablation setting can be True at a time."
+            )
+            
         # Graph encoder settings
         self.graph_encoder = GraphEncoder(
             input_size=config.gnn_input_size,
@@ -28,6 +34,9 @@ class BaseGraphPromptEncoder(nn.Module):
             num_edge_types=config.num_edge_types,
             max_num_nodes=config.max_num_nodes,
             edge_dim=config.edge_dim,
+            ablate_node_type_embeddings=config.ablate_node_type_embeddings,
+            ablate_edge_type_embeddings=config.ablate_edge_type_embeddings,
+            ablate_positional_embeddings=config.ablate_positional_embeddings,
         )
         
     def reshape_node_embeds(

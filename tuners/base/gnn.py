@@ -40,6 +40,9 @@ class GraphEncoder(nn.Module):
         num_edge_types: int,
         max_num_nodes: int,
         edge_dim: int,
+        ablate_node_type_embeddings: bool,
+        ablate_edge_type_embeddings: bool,
+        ablate_positional_embeddings: bool,
     ):
         super().__init__()
         # Initialize the settings
@@ -60,6 +63,15 @@ class GraphEncoder(nn.Module):
         
         # Initialize the edge type embeddings
         self.edge_type_embeddings = nn.Embedding(self.num_edge_types, self.edge_dim)
+        
+        # Ablation of node type embeddings, edge type embeddings, or positional embeddings
+        if ablate_node_type_embeddings:
+            self.generate_node_embeddings = self.generate_sinusoidal_positional_embeddings
+        elif ablate_edge_type_embeddings:
+            self.edge_dim = None
+            self.generate_edge_embeddings = lambda *args, **kwargs: None
+        elif ablate_positional_embeddings:
+            self.generate_node_embeddings = lambda batch_index, d_modal, label: self.node_type_embeddings(label)
         
         # Initialize the graph layers (no activation function is needed between GATConv as it is already included in the GATConv)
         # This implementation simulates the multi-head attention by setting concat=True across the GATConv layers

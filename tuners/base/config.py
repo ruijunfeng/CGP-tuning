@@ -50,4 +50,15 @@ class GraphEncoderConfig():
         default=128,
         metadata={"help": "The dimension of edge type embeddings."},
     )
-    
+    ablate_node_type_embeddings: bool = field(
+        default=False,
+        metadata={"help": "Whether to ablate node type embeddings in the GNN."},
+    )
+    ablate_edge_type_embeddings: bool = field(
+        default=False,
+        metadata={"help": "Whether to ablate edge type embeddings in the GNN."},
+    )
+    ablate_positional_embeddings: bool = field(
+        default=False,
+        metadata={"help": "Whether to ablate positional embeddings in the GNN."},
+    )

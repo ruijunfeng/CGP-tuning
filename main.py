@@ -19,7 +19,7 @@ if __name__ == "__main__":
     print("number of cpus", os.cpu_count())
 
     # base model settings
-    base_model_dir = "google/codegemma-7b" # "codellama/CodeLlama-7b-hf", "Qwen/Qwen2.5-Coder-7B"
+    base_model_dir = "Qwen/Qwen2.5-Coder-7B" # "codellama/CodeLlama-7b-hf", "google/codegemma-7b"
     # tokenizer
     tokenizer = AutoTokenizer.from_pretrained(base_model_dir)
     tokenizer.chat_template = read_file("templates/chat_template.jinja")
@@ -51,6 +51,9 @@ if __name__ == "__main__":
         num_edge_types=13,
         max_num_nodes=4096,
         edge_dim=128,
+        ablate_node_type_embeddings=False,
+        ablate_edge_type_embeddings=False,
+        ablate_positional_embeddings=False,
         # Cross-modal alignment module settings
         num_virtual_tokens=32,
         cma_hidden_size=base_model.config.hidden_size, # same as token_dim
@@ -58,6 +61,9 @@ if __name__ == "__main__":
         cma_num_key_value_heads=32,
         cma_dropout=0.1,
         cma_bias=False,
+        ablate_cross_modal_alignment_module=False,
+        ablate_multi_head_attn=False,
+        ablate_cross_modal_attention=False,
     )
     # peft model initialization
     peft_model = GraphPeftModelForCausalLM(config=config, base_model=base_model)

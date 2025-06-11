@@ -28,3 +28,15 @@ class GraphPromptEncoderConfig(PromptLearningConfig, GraphEncoderConfig):
         default=False,
         metadata={"help": "Whether to use bias in the projection layer of the multi-head self-attention."},
     )
+    ablate_cross_modal_alignment_module: bool = field(
+        default=False,
+        metadata={"help": "Whether to ablate the cross-modal alignment module."},
+    )
+    ablate_multi_head_attn: bool = field(
+        default=False,
+        metadata={"help": "Whether to ablate the multi-head attention in the cross-modal alignment module."},
+    )
+    ablate_projector: bool = field(
+        default=False,
+        metadata={"help": "Whether to ablate the projector in the cross-modal alignment module."},
+    )

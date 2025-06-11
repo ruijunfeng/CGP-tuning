@@ -10,6 +10,31 @@ from tuners.base.attn import MultiHeadAttention
 from tuners.base.model import BaseGraphPromptEncoder
 from tuners.cgp_tuning.config import GraphPromptEncoderConfig
 
+class DummyLinear(nn.Module):
+    """
+    A dummy linear layer that does not perform any operation.
+    This is used to ablate the projector in the GraphPromptEncoder.
+    It initializes the weight and bias parameters but does not apply any transformation in the forward pass.
+    
+    Args:
+        in_features (int): The number of input features.
+        out_features (int): The number of output features.
+        bias (bool, optional): Whether to include a bias term. Defaults to True.
+    """
+    
+    def __init__(
+        self, 
+        in_features: int, 
+        out_features: int, 
+        bias: bool = True
+    ):
+        super().__init__()
+        self.weight = nn.Parameter(torch.empty((out_features, in_features)))
+        self.bias = nn.Parameter(torch.empty(out_features)) if bias else None
+        
+    def forward(self, input: torch.Tensor) -> torch.Tensor:
+        return input
+    
 class GraphPromptEncoder(BaseGraphPromptEncoder):
     """
     Use the graph encoder to extract graph features, then use shared cross-modal alignment module, to align virtual tokens with graph features and text features.
@@ -32,6 +57,14 @@ class GraphPromptEncoder(BaseGraphPromptEncoder):
             bias=config.cma_bias,
         )
         self.projector = nn.Linear(config.cma_hidden_size, config.cma_hidden_size, bias=True)
+        
+        # Ablation of cross-modal alignment module, multi-head attention, or projector
+        if config.ablate_cross_modal_alignment_module:
+            self.forward = lambda graphs=None, input_embeds=None, attention_mask=None, **kwargs: ModelOutput(soft_prompts=self.embedding.expand(input_embeds.size(0), -1, -1))
+        if config.ablate_multi_head_attn:
+            self.forward = lambda graphs=None, input_embeds=None, attention_mask=None, **kwargs: ModelOutput(soft_prompts=self.projector(self.embedding.expand(input_embeds.size(0), -1, -1)))
+        if config.ablate_projector:
+            self.projector = DummyLinear(config.cma_hidden_size, config.cma_hidden_size, bias=True)
     
     def forward(
         self, 
