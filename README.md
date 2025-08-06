@@ -25,3 +25,20 @@ To run this project, ensure that the following dependencies are installed with t
 - **pytorch**: [v2.4.0](https://pytorch.org/)
 - **cuda toolkit**: v11.8.0  
 - **cuDNN**: v8.9.2.26
+
+## Citation
+
+If you find this work useful, please cite our paper:
+
+```bibtex
+@ARTICLE{feng2025cgptuning,
+  author={Feng, Ruijun and Pearce, Hammond and Liguori, Pietro and Sui, Yulei},
+  journal={IEEE Transactions on Software Engineering}, 
+  title={CGP-Tuning: Structure-Aware Soft Prompt Tuning for Code Vulnerability Detection}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-16},
+  doi={10.1109/TSE.2025.3591934}
+}
+```
