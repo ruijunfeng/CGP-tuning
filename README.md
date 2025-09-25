@@ -36,9 +36,10 @@ If you find this work useful, please cite our paper:
   journal={IEEE Transactions on Software Engineering}, 
   title={CGP-Tuning: Structure-Aware Soft Prompt Tuning for Code Vulnerability Detection}, 
   year={2025},
-  volume={},
-  number={},
-  pages={1-16},
+  volume={51},
+  number={9},
+  pages={2533-2548},
+  keywords={Codes;Tuning;Source coding;Semantics;Computational efficiency;Graph neural networks;Large language models;Computational modeling;Training;Static analysis;Code large language model;soft prompt tuning;vulnerability detection;cross-modal alignment;graph neural network;multimodal learning},
   doi={10.1109/TSE.2025.3591934}
 }
 ```
