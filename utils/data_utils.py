@@ -18,7 +18,7 @@ class DataCollatorForChatML:
     """
     Data collator for ChatML format datasets.
     """
-
+    
     tokenizer: PreTrainedTokenizerBase
     ignore_index: int = -100
     max_length: int = None
@@ -90,14 +90,18 @@ class DataCollatorForChatML:
         prompts_input_ids = [torch.tensor(ids) for ids in tokenized_prompts["input_ids"]]
         prompt_attention_mask = [torch.tensor([1] * len(ids)) for ids in tokenized_prompts["input_ids"]]
         
-        # pad the input_ids, attention_mask and labels to the same length across the batch if max_length is set
+        # pad the input_ids, attention_mask, labels, prompts to the same length across the batch if max_length is set
+        # for supervised fine-tuning, right padding is used because the model.forward() method includes pad tokens in the position ids
+        # for next-token inference, left padding is used to keep the most recent tokens on the right side
+        # but if using model.forward() to get next-token logits with left padding, the position ids need to be processed manually
+        # for simplicity, this experiment uses a batch size of 1 for both training and inference
         if self.is_padding:
-            input_ids = pad(input_ids, padding_side="left", padding_value=self.tokenizer.pad_token_id)
-            attention_mask = pad(attention_mask, padding_side="left", padding_value=0)
-            labels = pad(labels, padding_side="left", padding_value=self.ignore_index)
+            input_ids = pad(input_ids, padding_side="right", padding_value=self.tokenizer.pad_token_id)
+            attention_mask = pad(attention_mask, padding_side="right", padding_value=0)
+            labels = pad(labels, padding_side="right", padding_value=self.ignore_index)
             prompts_input_ids = pad(prompts_input_ids, padding_side="left", padding_value=self.tokenizer.pad_token_id)
             prompt_attention_mask = pad(prompt_attention_mask, padding_side="left", padding_value=0)
-            
+        
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
