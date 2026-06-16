@@ -1,0 +1,19 @@
+{
+    "BLOCK": 0,
+    "CALL": 1,
+    "CONTROL_STRUCTURE": 2,
+    "FIELD_IDENTIFIER": 3,
+    "IDENTIFIER": 4,
+    "JUMP_TARGET": 5,
+    "LITERAL": 6,
+    "LOCAL": 7,
+    "METHOD": 8,
+    "METHOD_PARAMETER_IN": 9,
+    "METHOD_PARAMETER_OUT": 10,
+    "METHOD_REF": 11,
+    "METHOD_RETURN": 12,
+    "MODIFIER": 13,
+    "RETURN": 14,
+    "TYPE_DECL": 15,
+    "UNKNOWN": 16
+}

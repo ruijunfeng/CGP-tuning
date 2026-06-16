@@ -1,0 +1,4 @@
+{
+    "user": "Does the following code snippet contain any security vulnerabilities? Return true or false.\n{func}\n",
+    "assistant": "{target}"
+}
